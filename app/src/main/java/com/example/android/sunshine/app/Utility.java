@@ -129,15 +129,13 @@ public class Utility {
 //    }
 //    return String.format("%.0f", temp);
 //  }
-  static String formatTemperature(Context context, double temperature, boolean isMetric) {
+  public static String formatTemperature(Context context, double temperature) {
 
-    double temp;
-    if ( !isMetric ) {
-      temp = 9*temperature/5+32;
-    } else {
-      temp = temperature;
+    String suffix = "\u00B0";
+    if(!isMetric(context)){
+      temperature = (temperature * 1.8) + 32;
     }
-    return context.getString(R.string.format_temperature, temp);
+    return String.format(context.getString(R.string.format_temperature),temperature);
 }
 
   static String formatDate(long dateInMillis) {

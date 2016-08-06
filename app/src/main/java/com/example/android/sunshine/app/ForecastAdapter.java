@@ -19,15 +19,22 @@ public class ForecastAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_FUTURE_DAY = 1;
     private static final int VIEW_TYPE_COUNT = 2;
 
+    private boolean mUseTodayLayout = true;
+
+    public void setUseTodayLayout(boolean useTodayLayout){
+        mUseTodayLayout = useTodayLayout;
+    }
+
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        return (position == 0 && mUseTodayLayout)? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override
     public int getViewTypeCount() {
         return VIEW_TYPE_COUNT;
     }
+
 
 
     public ForecastAdapter(Context context, Cursor c, int flags) {
@@ -39,7 +46,7 @@ public class ForecastAdapter extends CursorAdapter {
    */
   private String formatHighLows(double high, double low) {
     boolean isMetric = Utility.isMetric(mContext);
-    String highLowStr = Utility.formatTemperature(mContext,high, isMetric) + "/" + Utility.formatTemperature(mContext, low, isMetric);
+    String highLowStr = Utility.formatTemperature(mContext,high) + "/" + Utility.formatTemperature(mContext, low);
     return highLowStr;
   }
 
@@ -151,14 +158,14 @@ public class ForecastAdapter extends CursorAdapter {
 //
 //      // Read high temperature from cursor
       double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-      viewHolder.highTempView.setText(Utility.formatTemperature(mContext,high, isMetric));
+      viewHolder.highTempView.setText(Utility.formatTemperature(mContext,high));
 
 //      TextView highView = (TextView) view.findViewById(R.id.list_item_high_textview);
 //      highView.setText(Utility.formatTemperature(high, isMetric));
 //
 //
       double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-      viewHolder.lowTempView.setText(Utility.formatTemperature(mContext,low, isMetric));
+      viewHolder.lowTempView.setText(Utility.formatTemperature(mContext,low));
 //      TextView lowView = (TextView) view.findViewById(R.id.list_item_low_textview);
 //      lowView.setText(Utility.formatTemperature(low, isMetric));
 //    TextView tv = (TextView)view;
